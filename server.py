@@ -20,7 +20,7 @@ import mimetypes
 #
 #
 # Furthermore it is derived from the Python documentation examples thus
-# some of the code is Copyright © 2001-2013 Python Software
+# some of the code is Copyright © 2001-2022 Python Software
 # Foundation; All Rights Reserved
 #
 # http://docs.python.org/2/library/socketserver.html
