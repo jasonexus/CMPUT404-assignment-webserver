@@ -23,6 +23,7 @@ server.py contains contributions from:
 I collaborated on this assignment with:
 
 Jun Li
+
 CCID: junyan4
 
 But the server.py example is derived from the python documentation
@@ -60,3 +61,5 @@ Python String isalpha() Method. W3Schools. (n.d.). Retrieved January 27, 2022, f
 Python: Os.path.exists() method. GeeksforGeeks. (2019, May 21). Retrieved January 28, 2022, from https://www.geeksforgeeks.org/python-os-path-exists-method/ 
 
 Bentley4. (2012, May 15). A simple website with python using simplehttpserver and SocketServer, how to only display the HTML file and not the whole directory? Stack Overflow. Retrieved January 28, 2022, from https://stackoverflow.com/questions/10607621/a-simple-website-with-python-using-simplehttpserver-and-socketserver-how-to-onl. Answered By: Susam Pal(2012, May 15).
+
+Mimetypes - map filenames to mime types¶. mimetypes - Map filenames to MIME types - Python 3.10.2 documentation. (n.d.). Retrieved January 28, 2022, from https://docs.python.org/3/library/mimetypes.html 
