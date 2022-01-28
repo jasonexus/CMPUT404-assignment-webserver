@@ -2,7 +2,6 @@
 import socketserver
 import os
 import os.path
-from pathlib import Path
 import mimetypes
 
 # Copyright 2022 Abram Hindle, Eddie Antonio Santos, Jason Branch-Allen
@@ -30,7 +29,6 @@ import mimetypes
 
 # try: curl -v -X GET http://127.0.0.1:8080/
 
-p = Path('/')
 cwd = os.getcwd()
 # firstPath = cwd / 'www' / 'index.html'
 
@@ -45,8 +43,7 @@ class MyWebServer(socketserver.BaseRequestHandler):
         request_method = http_header.split()[0]
         extension = file_path.split('/')[-1]
         path_ending = file_path[-1]
-        secondPath = './www' + file_path
-        print(extension)
+        firstPath = './www' + file_path
         # print(data)
         # print(http_header)
         # print(http_command)
@@ -56,19 +53,20 @@ class MyWebServer(socketserver.BaseRequestHandler):
             if request_method != 'GET':
                 self.request.sendall(bytearray(
                     "HTTP/1.1 405 Method Not Allowed\r\n", 'utf-8'))
-            # elif path_ending != '/' and (extension.isalpha() or '-' in extension):
-            #     self.request.sendall(
-            #         bytearray("HTTP/1.1 404 NOT FOUND\r\nFile Not Found", 'utf-8'))
-            # elif path_ending != '/' and '.' not in extension:
-            #     # self.request.sendall(
-            #     #     bytearray("HTTP/1.1 404 NOT FOUND\r\nFile Not Found", 'utf-8'))
-            #     self.request.sendall(
-            #         bytearray("HTTP/1.1 301 Moved Permanently\r\n" + file_path + "/" + "\r\n", 'utf-8'))
+            elif os.path.exists(firstPath) and extension.isalpha():
+
+                if os.path.isdir(firstPath):
+                    self.request.sendall(
+                        bytearray("HTTP/1.1 301 Moved Permanently\r\n: " + file_path + '/' + "\r\n", 'utf-8'))
+                else:
+                    self.request.sendall(
+                        bytearray("HTTP/1.1 404 NOT FOUND\r\nFile Not Found", 'utf-8'))
             else:
                 self.server_requests(file_path)
-        # else:
-        #     send.request.sendall(
-        #         bytearray("HTTP/1.1 404 NOT FOUND\r\nFile Not Found"))
+
+        else:
+            self.request.sendall(
+                bytearray("HTTP/1.1 400 Bad Request\r\nBad Request", 'utf-8'))
 
         print("Got a request of: %s\n" % self.data)
         self.request.sendall(bytearray("OK\r\n", 'utf-8'))
@@ -81,18 +79,7 @@ class MyWebServer(socketserver.BaseRequestHandler):
 
         try:
             if os.path.realpath(cwd + '/www' + file_path).startswith(cwd + '/www'):
-                if os.path.exists(firstPath) and extension.isalpha():
-                    # fin = open(firstPath)
-                    # content = fin.read()
-
-                    if os.path.isdir(firstPath):
-                        self.request.sendall(
-                            bytearray("HTTP/1.1 301 Moved Permanently\r\n: " + file_path + '/' + "\r\n", 'utf-8'))
-                    else:
-                        self.request.sendall(
-                            bytearray("HTTP/1.1 404 NOT FOUND\r\nFile Not Found", 'utf-8'))
-                    fin.close()
-                elif os.path.exists(secondPath) and file_path.endswith('/'):
+                if os.path.exists(secondPath) and file_path.endswith('/'):
                     fin = open(secondPath)
                     content = fin.read()
                     # print(content)
@@ -129,21 +116,6 @@ class MyWebServer(socketserver.BaseRequestHandler):
         except FileNotFoundError:
             self.request.sendall(
                 bytearray("HTTP/1.1 404 NOT FOUND\r\nFile Not Found", 'utf-8'))
-
-            # elif os.path.exists(firstPath):
-            #     file_path = '/index.html'
-            #     fin = open("./www" + file_path)
-            #     content = fin.read()
-            #     print(content)
-            #     self.request.sendall(bytearray(
-            #         "HTTP/1.1 200 OK\r\n" + "Content-Type: text/html\r\n" + content, 'utf-8'))
-            #     fin.close()
-
-            # elif os.path.exists(file_path) and file_path.endswith('.css'):
-            #     print("Hi")
-            # Check if the path ends with .html. If so, we open it.
-
-            # Check if the
 
 
 if __name__ == "__main__":
