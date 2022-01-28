@@ -92,7 +92,7 @@ class MyWebServer(socketserver.BaseRequestHandler):
 
                 if os.path.isdir(firstPath):
                     self.request.sendall(
-                        bytearray("HTTP/1.1 301 Moved Permanently\r\n: " + file_path + '/' + "\r\n", 'utf-8'))
+                        bytearray("HTTP/1.1 301 Moved Permanently\r\nLocation: " + file_path + '/' + "\r\n", 'utf-8'))
                 else:
                     self.request.sendall(
                         bytearray("HTTP/1.1 404 NOT FOUND\r\nFile Not Found", 'utf-8'))
@@ -142,7 +142,7 @@ class MyWebServer(socketserver.BaseRequestHandler):
                         fin = open(secondPath)
                         content = fin.read()
                         self.request.sendall(
-                            bytearray("HTTP/1.1 301 Moved Permanently\r\n: " + file_path + '/' + "\r\n", 'utf-8'))
+                            bytearray("HTTP/1.1 301 Moved Permanently\r\nLocation: " + file_path + '/' + "\r\n", 'utf-8'))
                         fin.close()
                     except FileNotFoundError:
                         self.request.sendall(
